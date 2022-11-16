@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "shellout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JohnSundell/ShellOut.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "d3db50b62a86b18f88f5de38cae5f3d80617d555"
+      }
+    }
+  ],
+  "version" : 2
+}
