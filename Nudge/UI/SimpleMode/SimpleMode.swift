@@ -19,8 +19,8 @@ struct SimpleMode: View {
     let bottomPadding: CGFloat = 10
     let contentWidthPadding: CGFloat = 25
     
-    let logoWidth: CGFloat = 200
-    let logoHeight: CGFloat = 150
+    let logoWidth: CGFloat = 300
+    let logoHeight: CGFloat = 80
 
     // Nudge UI
     var body: some View {
@@ -29,7 +29,7 @@ struct SimpleMode: View {
             AdditionalInfoButton()
                 .padding(3)
 
-            VStack(alignment: .center, spacing: 10) {
+            VStack(alignment: .center, spacing: 8) {
                 Spacer()
                 // Company Logo
                 CompanyLogo(width: logoWidth, height: logoHeight)
@@ -45,16 +45,16 @@ struct SimpleMode: View {
                 // Days or Hours Remaining
                 HStack(spacing: 3.5) {
                     if (viewObserved.daysRemaining > 0 && !Utils().demoModeEnabled()) || Utils().demoModeEnabled() {
-                        Text("Days Remaining To Update:".localized(desiredLanguage: getDesiredLanguage()))
+                        Text("Days Remaining To Resolve:".localized(desiredLanguage: getDesiredLanguage()))
                         Text(String(viewObserved.daysRemaining))
                             .foregroundColor(colorScheme == .light ? .accessibleSecondaryLight : .accessibleSecondaryDark)
                     } else if viewObserved.daysRemaining == 0 && !Utils().demoModeEnabled() {
-                            Text("Hours Remaining To Update:".localized(desiredLanguage: getDesiredLanguage()))
+                            Text("Hours Remaining To Resolve:".localized(desiredLanguage: getDesiredLanguage()))
                             Text(String(viewObserved.hoursRemaining))
                                 .foregroundColor(differentiateWithoutColor ? .accessibleRed : .red)
                                 .fontWeight(.bold)
                     } else {
-                        Text("Days Remaining To Update:".localized(desiredLanguage: getDesiredLanguage()))
+                        Text("Days Remaining To Resolve:".localized(desiredLanguage: getDesiredLanguage()))
                         Text(String(viewObserved.daysRemaining))
                             .foregroundColor(differentiateWithoutColor ? .accessibleRed : .red)
                             .fontWeight(.bold)
@@ -84,15 +84,19 @@ struct SimpleMode: View {
                     .hidden()
                 }
                 Spacer()
-
-                // actionButton
-                Button(action: {
-                    Utils().updateDevice()
-                }) {
-                    Text(actionButtonText)
-                        .frame(minWidth: 120)
+                
+                HStack {
+                    Text("Your macOS version is out of date".localized(desiredLanguage: getDesiredLanguage()))
+                    
+                    // actionButton
+                    Button(action: {
+                        Utils().updateDevice()
+                    }) {
+                        Text(actionButtonText)
+                            .frame(minWidth: 120)
+                    }
+                    .keyboardShortcut(.defaultAction)
                 }
-                .keyboardShortcut(.defaultAction)
                 Spacer()
             }
             .frame(alignment: .center)
