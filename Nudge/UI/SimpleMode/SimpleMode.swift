@@ -97,6 +97,26 @@ struct SimpleMode: View {
                     }
                     .keyboardShortcut(.defaultAction)
                 }
+                
+                if !viewObserved.showFileVault {
+                    HStack {
+                        Text("Your Mac is not FileVault encrypted".localized(desiredLanguage: getDesiredLanguage()))
+                        
+                        // actionButton
+                        Button(action: {
+                            Utils().navigateToFileVault()
+                        }) {
+                            Text("Enable FileVault") // extract to property
+                                .frame(minWidth: 120)
+                        }
+                        .keyboardShortcut(.defaultAction)
+                    }
+                } else {
+                    HStack {
+                        Text("Your Mac is FileVault encrypted ✅".localized(desiredLanguage: getDesiredLanguage()))
+                    }
+                }
+                
                 Spacer()
             }
             .frame(alignment: .center)

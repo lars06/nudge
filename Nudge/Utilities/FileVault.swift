@@ -9,25 +9,31 @@ import Foundation
 import ShellOut
 
 class FileVault {
-    var enabled = true
+    var status = FileVaultStatus.On
     
     init(fileVaultCommand: String = "fdesetup status") {
+        CheckFileVaultStatus(fileVaultCommand: fileVaultCommand)
+    }
+    
+    private func CheckFileVaultStatus(fileVaultCommand: String) {
         do {
             let shellOutput = try shellOut(to: fileVaultCommand)
-            enabled = try ParseShellOutput(shellOutput: shellOutput)
+            status = try ParseFileVaultStatus(shellOutput)
+            
+            fileVaultLog.info("\("FileVault status determined", privacy: .public)")
         } catch let error as ShellOutError {
             print(error.message)
         } catch {
-            print("FileVault shell check returned unexpected value")
+            fileVaultLog.error("\("FileVault shell check returned unexpected value", privacy: .public)")
         }
     }
     
-    private func ParseShellOutput(shellOutput: String) throws -> Bool {
+    private func ParseFileVaultStatus(_ shellOutput: String) throws -> FileVaultStatus {
         switch (shellOutput) {
         case "FileVault is On.":
-            return false // change back after UI checked
+            return FileVaultStatus.On
         case "FileVault is Off.":
-            return false
+            return FileVaultStatus.Off
         default:
             throw FileVaultError.InvalidReturnValue
         }
@@ -36,4 +42,9 @@ class FileVault {
 
 enum FileVaultError: Error {
     case InvalidReturnValue
+}
+
+enum FileVaultStatus {
+    case On
+    case Off
 }

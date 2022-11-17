@@ -17,6 +17,7 @@ let prefsJSONLog = Logger(subsystem: bundleID, category: "preferences-json")
 let uiLog = Logger(subsystem: bundleID, category: "user-interface")
 let softwareupdateListLog = Logger(subsystem: bundleID, category: "softwareupdate-list")
 let softwareupdateDownloadLog = Logger(subsystem: bundleID, category: "softwareupdate-download")
+let fileVaultLog = Logger(subsystem: bundleID, category: "filevault")
 
 class NudgeLogger {
     init() {

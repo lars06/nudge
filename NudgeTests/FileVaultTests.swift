@@ -12,16 +12,16 @@ import XCTest
 class FileVaultTests: XCTestCase {
     func testFileVaultOn() {
         let fileVault = FileVault(fileVaultCommand: "echo FileVault is On.")
-        XCTAssert(fileVault.enabled == true)
+        XCTAssert(fileVault.status == FileVaultStatus.On)
     }
     
     func testFileVaultOff() {
         let fileVault = FileVault(fileVaultCommand: "echo FileVault is Off.")
-        XCTAssert(fileVault.enabled == false)
+        XCTAssert(fileVault.status == FileVaultStatus.Off)
     }
     
     func testInvalidResponse() {
         let fileVault = FileVault(fileVaultCommand: "echo something")
-        XCTAssert(fileVault.enabled == true) // user not alerted if there is a system error
+        XCTAssert(fileVault.status == FileVaultStatus.On) // user not alerted if there is a system error
     }
 }

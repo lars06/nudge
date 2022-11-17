@@ -963,6 +963,21 @@ struct Utils {
         // Adapted from https://stackoverflow.com/a/25453654
         return currentVersion.compare(newVersion, options: .numeric) != .orderedDescending
     }
+    
+    func shouldShowFileVaultPrompt() -> Bool {
+        return FileVault().status == FileVaultStatus.Off
+    }
+    
+    func navigateToFileVault() {
+        uiLog.notice("\("User clicked link to enable FileVault", privacy: .public)")
+        
+        let versionSpecificAnchor = versionGreaterThanOrEqual(currentVersion: currentOSVersion, newVersion: "13.0") ? "Security" : "FDE"
+        let navigationPath = "x-apple.systempreferences:com.apple.preference.security?\(versionSpecificAnchor)"
+        
+        let configuration = NSWorkspace.OpenConfiguration()
+        configuration.activates = true
+        NSWorkspace.shared.openApplication(at: URL(string: navigationPath)!, configuration: configuration)
+    }
 }
 
 func memoize<Input: Hashable, Output>(_ function: @escaping (Input) -> Output) -> (Input) -> Output {

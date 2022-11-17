@@ -37,6 +37,7 @@ class ViewState: ObservableObject {
     @Published var userSessionDeferrals = nudgeDefaults.object(forKey: "userSessionDeferrals") as? Int ?? 0
     @Published var blurredBackground =  [BlurWindowController]()
     @Published var screenCurrentlyLocked = false
+    @Published var showFileVault = Utils().shouldShowFileVaultPrompt()
 }
 
 class LogState {
