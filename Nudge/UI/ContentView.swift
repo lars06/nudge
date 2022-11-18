@@ -38,6 +38,7 @@ class ViewState: ObservableObject {
     @Published var blurredBackground =  [BlurWindowController]()
     @Published var screenCurrentlyLocked = false
     @Published var showFileVault = Utils().shouldShowFileVaultPrompt()
+    @Published var showFirewall = Utils().shouldShowFirewallPrompt()
 }
 
 class LogState {

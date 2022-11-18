@@ -968,12 +968,27 @@ struct Utils {
         return FileVault().status == FileVaultStatus.Off
     }
     
-    func navigateToFileVault() {
+    func navigateToFileVaultSettings() {
         uiLog.notice("\("User clicked link to enable FileVault", privacy: .public)")
         
         let versionSpecificAnchor = versionGreaterThanOrEqual(currentVersion: currentOSVersion, newVersion: "13.0") ? "Security" : "FDE"
         let navigationPath = "x-apple.systempreferences:com.apple.preference.security?\(versionSpecificAnchor)"
+        navigateToSettingsPath(navigationPath)
+    }
+    
+    func shouldShowFirewallPrompt() -> Bool {
+        return Firewall().status == FirewallStatus.Off
+    }
+    
+    func navigateToFirewallSettings() {
+        uiLog.notice("\("User clicked link to enable Firewall", privacy: .public)")
         
+        let versionSpecificAnchor = versionGreaterThanOrEqual(currentVersion: currentOSVersion, newVersion: "13.0") ? "Network-Settings.extension" : "preference.security?Firewall"
+        let navigationPath = "x-apple.systempreferences:com.apple.\(versionSpecificAnchor)"
+        navigateToSettingsPath(navigationPath)
+    }
+    
+    fileprivate func navigateToSettingsPath(_ navigationPath: String) {
         let configuration = NSWorkspace.OpenConfiguration()
         configuration.activates = true
         NSWorkspace.shared.openApplication(at: URL(string: navigationPath)!, configuration: configuration)

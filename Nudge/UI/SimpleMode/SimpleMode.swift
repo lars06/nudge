@@ -85,35 +85,56 @@ struct SimpleMode: View {
                 }
                 Spacer()
                 
-                HStack {
-                    Text("Your macOS version is out of date".localized(desiredLanguage: getDesiredLanguage()))
-                    
-                    // actionButton
-                    Button(action: {
-                        Utils().updateDevice()
-                    }) {
-                        Text(actionButtonText)
-                            .frame(minWidth: 120)
-                    }
-                    .keyboardShortcut(.defaultAction)
-                }
-                
-                if !viewObserved.showFileVault {
+                Group {
                     HStack {
-                        Text("Your Mac is not FileVault encrypted".localized(desiredLanguage: getDesiredLanguage()))
+                        Text("Your macOS version is out of date".localized(desiredLanguage: getDesiredLanguage()))
                         
                         // actionButton
                         Button(action: {
-                            Utils().navigateToFileVault()
+                            Utils().updateDevice()
                         }) {
-                            Text("Enable FileVault") // extract to property
+                            Text(actionButtonText)
                                 .frame(minWidth: 120)
                         }
                         .keyboardShortcut(.defaultAction)
                     }
-                } else {
-                    HStack {
-                        Text("Your Mac is FileVault encrypted ✅".localized(desiredLanguage: getDesiredLanguage()))
+                    
+                    if !viewObserved.showFileVault {
+                        HStack {
+                            Text("Your Mac is not FileVault encrypted".localized(desiredLanguage: getDesiredLanguage()))
+                            
+                            // actionButton
+                            Button(action: {
+                                Utils().navigateToFileVaultSettings()
+                            }) {
+                                Text("Enable FileVault") // extract to property
+                                    .frame(minWidth: 120)
+                            }
+                            .keyboardShortcut(.defaultAction)
+                        }
+                    } else {
+                        HStack {
+                            Text("Your Mac is FileVault encrypted ✅".localized(desiredLanguage: getDesiredLanguage()))
+                        }
+                    }
+                    
+                    if !viewObserved.showFirewall {
+                        HStack {
+                            Text("Your Mac Firewall is not enabled".localized(desiredLanguage: getDesiredLanguage()))
+                            
+                            // actionButton
+                            Button(action: {
+                                Utils().navigateToFirewallSettings()
+                            }) {
+                                Text("Enable Firewall") // extract to property
+                                    .frame(minWidth: 120)
+                            }
+                            .keyboardShortcut(.defaultAction)
+                        }
+                    } else {
+                        HStack {
+                            Text("Your Mac is Firewall enabled ✅".localized(desiredLanguage: getDesiredLanguage()))
+                        }
                     }
                 }
                 

@@ -18,6 +18,7 @@ let uiLog = Logger(subsystem: bundleID, category: "user-interface")
 let softwareupdateListLog = Logger(subsystem: bundleID, category: "softwareupdate-list")
 let softwareupdateDownloadLog = Logger(subsystem: bundleID, category: "softwareupdate-download")
 let fileVaultLog = Logger(subsystem: bundleID, category: "filevault")
+let firewallLog = Logger(subsystem: bundleID, category: "firewall")
 
 class NudgeLogger {
     init() {
