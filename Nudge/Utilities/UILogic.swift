@@ -68,13 +68,13 @@ func nudgeStartLogic() {
         uiLog.notice("\("User has selected a deferral date (\(nudgePrimaryState.deferRunUntil ?? nudgePrimaryState.lastRefreshTime)) that is greater than the launch date (\(Utils().getCurrentDate()))", privacy: .public)")
         Utils().exitNudge()
     }
-    if Utils().fullyUpdated() {
+    if Utils().fullyUpdated() && Utils().fileVaultEnabled() && Utils().firewallEnabled() { // shellOut crashes when all are true
         // Because Nudge will bail if it detects installed OS >= required OS, this will cause the Xcode preview to fail.
         // https://zacwhite.com/2020/detecting-swiftui-previews/
         if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
             return
         } else {
-            uiLog.notice("\("Device is fully updated", privacy: .public)")
+            uiLog.notice("\("Device is secured", privacy: .public)")
             Utils().exitNudge()
         }
     } else if enforceMinorUpdates == false && Utils().requireMajorUpgrade() == false {

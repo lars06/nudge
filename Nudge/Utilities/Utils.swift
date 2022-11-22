@@ -964,8 +964,8 @@ struct Utils {
         return currentVersion.compare(newVersion, options: .numeric) != .orderedDescending
     }
     
-    func shouldShowFileVaultPrompt() -> Bool {
-        return FileVault().status == FileVaultStatus.Off
+    func fileVaultEnabled() -> Bool {
+        return FileVault().status == FileVaultStatus.On
     }
     
     func navigateToFileVaultSettings() {
@@ -976,8 +976,8 @@ struct Utils {
         navigateToSettingsPath(navigationPath)
     }
     
-    func shouldShowFirewallPrompt() -> Bool {
-        return Firewall().status == FirewallStatus.Off
+    func firewallEnabled() -> Bool {
+        return Firewall().status == FirewallStatus.On
     }
     
     func navigateToFirewallSettings() {

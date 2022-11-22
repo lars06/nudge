@@ -37,8 +37,9 @@ class ViewState: ObservableObject {
     @Published var userSessionDeferrals = nudgeDefaults.object(forKey: "userSessionDeferrals") as? Int ?? 0
     @Published var blurredBackground =  [BlurWindowController]()
     @Published var screenCurrentlyLocked = false
-    @Published var showFileVault = Utils().shouldShowFileVaultPrompt()
-    @Published var showFirewall = Utils().shouldShowFirewallPrompt()
+    @Published var showSoftwareUpdatePrompt = !Utils().fullyUpdated()
+    @Published var showFileVaultPrompt = !Utils().fileVaultEnabled()
+    @Published var showFirewallPrompt = !Utils().firewallEnabled()
 }
 
 class LogState {
@@ -106,6 +107,8 @@ struct ContentView: View {
         }
         viewObserved.daysRemaining = Utils().getNumberOfDaysBetween()
         viewObserved.hoursRemaining = Utils().getNumberOfHoursRemaining()
+        
+        // should be refreshing showFileVault and showFirewall but shellOut crashes
     }
 }
 

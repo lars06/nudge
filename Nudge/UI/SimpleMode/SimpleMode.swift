@@ -86,20 +86,26 @@ struct SimpleMode: View {
                 Spacer()
                 
                 Group {
-                    HStack {
-                        Text("Your macOS version is out of date".localized(desiredLanguage: getDesiredLanguage()))
-                        
-                        // actionButton
-                        Button(action: {
-                            Utils().updateDevice()
-                        }) {
-                            Text(actionButtonText)
-                                .frame(minWidth: 120)
+                    if viewObserved.showSoftwareUpdatePrompt {
+                        HStack {
+                            Text("Your macOS version is out of date".localized(desiredLanguage: getDesiredLanguage()))
+                            
+                            // actionButton
+                            Button(action: {
+                                Utils().updateDevice()
+                            }) {
+                                Text(actionButtonText)
+                                    .frame(minWidth: 120)
+                            }
+                            .keyboardShortcut(.defaultAction)
                         }
-                        .keyboardShortcut(.defaultAction)
+                    } else {
+                        HStack {
+                            Text("Your Mac is fully updated ✅".localized(desiredLanguage: getDesiredLanguage()))
+                        }
                     }
                     
-                    if !viewObserved.showFileVault {
+                    if viewObserved.showFileVaultPrompt {
                         HStack {
                             Text("Your Mac is not FileVault encrypted".localized(desiredLanguage: getDesiredLanguage()))
                             
@@ -118,7 +124,7 @@ struct SimpleMode: View {
                         }
                     }
                     
-                    if !viewObserved.showFirewall {
+                    if viewObserved.showFirewallPrompt {
                         HStack {
                             Text("Your Mac Firewall is not enabled".localized(desiredLanguage: getDesiredLanguage()))
                             
