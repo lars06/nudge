@@ -964,8 +964,12 @@ struct Utils {
         return currentVersion.compare(newVersion, options: .numeric) != .orderedDescending
     }
     
-    func fileVaultEnabled() -> Bool {
+    func fileVaultEnabled() async -> Bool {
         return FileVault().status == FileVaultStatus.On
+    }
+    
+    func firewallEnabled() async -> Bool {
+        return Firewall().status == FirewallStatus.On
     }
     
     func navigateToFileVaultSettings() {
@@ -974,10 +978,6 @@ struct Utils {
         let versionSpecificAnchor = versionGreaterThanOrEqual(currentVersion: currentOSVersion, newVersion: "13.0") ? "Security" : "FDE"
         let navigationPath = "x-apple.systempreferences:com.apple.preference.security?\(versionSpecificAnchor)"
         navigateToSettingsPath(navigationPath)
-    }
-    
-    func firewallEnabled() -> Bool {
-        return Firewall().status == FirewallStatus.On
     }
     
     func navigateToFirewallSettings() {

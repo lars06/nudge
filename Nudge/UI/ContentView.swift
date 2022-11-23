@@ -37,9 +37,9 @@ class ViewState: ObservableObject {
     @Published var userSessionDeferrals = nudgeDefaults.object(forKey: "userSessionDeferrals") as? Int ?? 0
     @Published var blurredBackground =  [BlurWindowController]()
     @Published var screenCurrentlyLocked = false
-    @Published var showSoftwareUpdatePrompt = !Utils().fullyUpdated()
-    @Published var showFileVaultPrompt = !Utils().fileVaultEnabled()
-    @Published var showFirewallPrompt = !Utils().firewallEnabled()
+    @Published var showSoftwareUpdatePrompt = false
+    @Published var showFileVaultPrompt = false
+    @Published var showFirewallPrompt = false
 }
 
 class LogState {
@@ -85,16 +85,22 @@ struct ContentView: View {
             }
         )
         .edgesIgnoringSafeArea(.all)
-        .onAppear(perform: nudgeStartLogic)
         .onAppear() {
-            updateUI()
+            Task {
+                await updatePromptVisibility()
+                nudgeStartLogic()
+                updateUI()
+            }
         }
         .onReceive(nudgeRefreshCycleTimer) { _ in
             if needToActivateNudge() {
                 viewObserved.userSessionDeferrals += 1
                 viewObserved.userDeferrals = viewObserved.userSessionDeferrals + viewObserved.userQuitDeferrals
             }
-            updateUI()
+            Task {
+                await updatePromptVisibility()
+                updateUI()
+            }
         }
     }
     
@@ -107,8 +113,6 @@ struct ContentView: View {
         }
         viewObserved.daysRemaining = Utils().getNumberOfDaysBetween()
         viewObserved.hoursRemaining = Utils().getNumberOfHoursRemaining()
-        
-        // should be refreshing showFileVault and showFirewall but shellOut crashes
     }
 }
 
