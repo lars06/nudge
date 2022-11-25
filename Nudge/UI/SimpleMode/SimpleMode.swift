@@ -89,6 +89,7 @@ struct SimpleMode: View {
                     if viewObserved.showSoftwareUpdatePrompt {
                         HStack {
                             Text("Your macOS version is out of date".localized(desiredLanguage: getDesiredLanguage()))
+                                .id("softwareUpdatePrompt")
                             
                             // actionButton
                             Button(action: {
@@ -97,17 +98,19 @@ struct SimpleMode: View {
                                 Text(actionButtonText)
                                     .frame(minWidth: 120)
                             }
-                            .keyboardShortcut(.defaultAction)
+                            .id("softwareUpdateButton")
                         }
                     } else {
                         HStack {
                             Text("Your Mac is fully updated ✅".localized(desiredLanguage: getDesiredLanguage()))
+                            .id("softwareUpdateNoAction")
                         }
                     }
                     
                     if viewObserved.showFileVaultPrompt {
                         HStack {
                             Text("Your Mac is not FileVault encrypted".localized(desiredLanguage: getDesiredLanguage()))
+                            .id("fileVaultPrompt")
                             
                             // actionButton
                             Button(action: {
@@ -116,17 +119,19 @@ struct SimpleMode: View {
                                 Text("Enable FileVault") // extract to property
                                     .frame(minWidth: 120)
                             }
-                            .keyboardShortcut(.defaultAction)
+                            .id("fileVaultButton")
                         }
                     } else {
                         HStack {
                             Text("Your Mac is FileVault encrypted ✅".localized(desiredLanguage: getDesiredLanguage()))
+                            .id("fileVaultNoAction")
                         }
                     }
                     
                     if viewObserved.showFirewallPrompt {
                         HStack {
                             Text("Your Mac Firewall is not enabled".localized(desiredLanguage: getDesiredLanguage()))
+                            .id("firewallPrompt")
                             
                             // actionButton
                             Button(action: {
@@ -135,11 +140,12 @@ struct SimpleMode: View {
                                 Text("Enable Firewall") // extract to property
                                     .frame(minWidth: 120)
                             }
-                            .keyboardShortcut(.defaultAction)
+                            .id("firewallButton")
                         }
                     } else {
                         HStack {
                             Text("Your Mac is Firewall enabled ✅".localized(desiredLanguage: getDesiredLanguage()))
+                            .id("firewallNoAction")
                         }
                     }
                 }
