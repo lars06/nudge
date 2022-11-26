@@ -1,53 +1,17 @@
-<img src="/assets/NudgeIcon.png" width=10% height=10%>
+# Nudge fork: FileVault and Firewall
+This fork extends Nudge's functionality to check the status of additional security concerns: FileVault and Firewall. The software update prompt from the original Nudge is replaced with three prompts which conditionally show the status and provide actions for these security issues.
 
-# Nudge (macadmin's Slack [#nudge](https://macadmins.slack.com/archives/CDUU7DJQ2))
-Nudge is a multi-linguistic application, offering custom user deferrals, which strongly encourages macOS updates. Written in Swift and SwiftUI.
+The proof of concept was completed only in the app's Simple mode, which can be run with the `-simple-mode` argument. Since FileVault and Firewall can be difficult to disable on a dev Mac, the app functionality is difficult to test locally, however the code can be fiddled with to show the desired state.
 
-Nudge will only work on macOS Big Sur 11 and later and is a replacement for the original Nudge, which was written in Python 2/3. If you need to enforce macOS updates for earlier versions, it is recommended to use [nudge-python](https://github.com/macadmins/nudge-python).
+## Example UI
+<img src="/assets/simple_mode/dark-mode.png" width=75% height=75%>
 
-For more information about installation, deployment, and the user experience, please see the [wiki](https://github.com/macadmins/nudge/wiki).
+FileVault and Firewall prompts direct the user to the appropriate settings screens on their Mac when the button is clicked. If the user has resolved a security concern, the prompt will change to a success message with a ✅
 
-# Examples of the User Interface
-## simpleMode
-### English
-#### Light
-<img src="/assets/simple_mode/demo_simple_light_1.png" width=75% height=75%>
-<img src="/assets/simple_mode/demo_simple_light_2.png" width=75% height=75%>
-
-#### Dark
-<img src="/assets/simple_mode/demo_simple_dark_1.png" width=75% height=75%>
-<img src="/assets/simple_mode/demo_simple_dark_2.png" width=75% height=75%>
-
-### Localized (Spanish)
-#### Light
-<img src="/assets/simple_mode/demo_simple_light_localized.png" width=75% height=75%>
-
-#### Dark
-<img src="/assets/simple_mode/demo_simple_dark_localized.png" width=75% height=75%>
-
-## standardMode
-### English
-#### Light
-<img src="/assets/standard_mode/demo_light_1_icon.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_light_1_no_icon.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_light_2_icon.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_light_2_no_icon.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_light_3.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_light_4.png" width=75% height=75%>
-
-#### Dark
-<img src="/assets/standard_mode/demo_dark_1_icon.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_dark_1_no_icon.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_dark_2_icon.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_dark_2_no_icon.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_dark_3.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_dark_4.png" width=75% height=75%>
-
-### Localized (Spanish)
-#### Light
-<img src="/assets/standard_mode/demo_light_2_localized.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_light_4_icon_localized.png" width=75% height=75%>
-
-#### Dark
-<img src="/assets/standard_mode/demo_dark_2_icon_localized.png" width=75% height=75%>
-<img src="/assets/standard_mode/demo_dark_4_localized.png" width=75% height=75%>
+## Next steps
+This was a proof of concept, so there are multiple areas for further development:
+- Determine logic for when a user resolves a security issue. Since there are now multiple security prompts, the interface will need to be refreshed and updated as the user makes the changes (eg. turning on FileVault and Firewall).
+- Test on earlier versions of macOS (< 13.0). Different settings navigation anchors exist for versions >=13.0 and <13.0. This logic is included but has not been tested on other machines.
+- Extract strings (UI messages and settings anchors) into a centralised location.
+- Determine if the Nudge standard mode UI is needed, or if simple mode is enough for the requirements. If standard mode is required, the UI will need to be reworked.
+- Host light and dark versions of company logo to reference in Nudge JSON. This can also be done locally by referencing a local file in the Nudge JSON.

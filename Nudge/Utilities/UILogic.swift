@@ -92,11 +92,14 @@ func userHasClickedDeferralQuitButton(deferralTime: Date) {
     uiLog.notice("\("User initiated a deferral: \(deferralTime)", privacy: .public)")
 }
 
+// FileVault and Firewall shell checks need to be async otherwise the app crashes
 @MainActor
 func updatePromptVisibility() async {
     nudgePrimaryState.showSoftwareUpdatePrompt = !Utils().fullyUpdated()
     await nudgePrimaryState.showFileVaultPrompt = !Utils().fileVaultEnabled()
     await nudgePrimaryState.showFirewallPrompt = !Utils().firewallEnabled()
+    
+    uiLog.info("\("Visibility status of prompts updated", privacy: .public)")
 }
 
 func needToActivateNudge() -> Bool {
